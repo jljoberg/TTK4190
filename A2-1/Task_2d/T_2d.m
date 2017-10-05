@@ -1,3 +1,4 @@
+close all;
 s = tf('s');
 %% Constants
 
@@ -19,7 +20,7 @@ V_g = 637/3.6 ; % [m/s] Speed of ground (637 [km/h])
 d = 2; 
 
 % PI for course angle chi
-Wx = 8;
+Wx = 9;
 wx = wp/Wx;
 zx = 0.8;
 k_p_chi = V_g/g * 2*zx*wx;
@@ -47,6 +48,21 @@ chi_OL = g/V_g * (a2*k_p_phi*(k_i_chi + s*k_p_chi)) / (  s^4 + s^3*(a1+a2*k_d_ph
 
 chi_fb = chi_OL/(1+chi_OL);
 chi_FB = minreal(chi_fb);
+
+%% Comare BODE plot
+
+% subplot(1,2,2)
+bode(phi_OL, chi_OL); grid on;
+legend('\phi/\phi^c open loop', '\chi/\chi^c open loop')
+title('Open loop, W_\chi = 9, \zeta_\chi = 0.8')
+
+% subplot(1,2,2)
+% figure;
+% bode(phi_CL, chi_CL); grid on;
+% legend('\phi/\phi^c closed loop', '\chi closed loop')
+
+
+
 
 
 
