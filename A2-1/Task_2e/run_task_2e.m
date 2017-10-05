@@ -35,7 +35,7 @@ k_p_chi = V_g/g * 2*zx*wx;
 k_i_chi = V_g/g * wx^2; 
 
 %% Run simulation and plot results
-sim('BlockDprob2d.slx');
+sim('BlockDprob2e.slx');
 run plot__.m
 
 %print('plot_T2_e', '-depsc')
