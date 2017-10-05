@@ -25,12 +25,11 @@ V_g = 637/3.6 ; % [m/s] Speed of ground (637 [km/h])
 d = 2; 
 
 % PI for course angle chi
-Wx = 8;
+Wx = 9;
 wx = wp/Wx;
 zx = 0.8;
 k_p_chi = V_g/g * 2*zx*wx;
 k_i_chi = V_g/g * wx^2; 
-
 
 %% Define transfer function
 
