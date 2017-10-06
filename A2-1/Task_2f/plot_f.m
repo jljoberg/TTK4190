@@ -1,5 +1,4 @@
-
-%% Course, course ref and desired aileron angle
+%% Nonlinear: Course angle vs. course angle ref + aileron input
 figure(1)
 subplot(2,1,1); hold on;
 plot(chi1.time, chi1.data(:,1), '--', 'Color', 'r'); plot(chi1.time, chi1.data(:,2), 'b');

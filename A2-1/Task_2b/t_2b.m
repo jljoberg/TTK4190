@@ -1,3 +1,4 @@
+clear all; close all;
 %%  Aircraft roll and course controller
 
 %% Constants
@@ -36,12 +37,7 @@ k_i_chi = V_g/g * wx^2;
 s = tf('s');
 H = tf( a2/( s *(s^2 + (a1+a2*k_d_phi)*s + a2*k_p_phi ) ) );
 k = -2:0.01:6;
-rlocus(-H,k);
-
-%% Choose ki and find poles (ki chosen in %% constants)
-sys = tf( a2*k_p_phi*(s+k_i_phi/k_p_phi)  /  ( s^3  + s^2*(a1+a2*k_d_phi) + s*(a2*k_p_phi) + a2*k_i_phi )  );
-pole(sys)
-bode(sys); grid on;
+rlocus(-H,k); xlim([-1 0.5])
 
 %% Bode using different k_i_phi
 
@@ -50,6 +46,7 @@ k_i_tmp = [0; -0.5; -1; -1.5];
 for i =1:size(k_i_tmp,1)
     sys(i) = tf( a2*k_p_phi*(s+k_i_tmp(i)/k_p_phi) / ( s^3  + s^2*(a1+a2*k_d_phi) + s*(a2*k_p_phi) + a2*k_i_tmp(i) )  );
 end
+
+figure;
 bode(sys(1), sys(2), sys(3), sys(4)); grid on
 legend('k_i_phi=0','k_i_phi=-0.5','k_i_phi=-1','k_i_phi=-1.5')
-
