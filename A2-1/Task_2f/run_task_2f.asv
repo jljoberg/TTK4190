@@ -12,14 +12,13 @@ A = [-0.322, 0.052, 0.028, -1.12 , 0.002; ...       %--
                                                     %--
 B = [0 0 0 0 10]';                                  %--
                                                     %--
-C = [0 0 0 1 0; ...                                 %--
-     0 0 1 0 0; ...                                 %--
-     1 0 0 0 0; ...                                 %--
-     0 1 0 0 0];                                    %--
+%C = [0 0 0 1 0  ...                                 %--
+%     0 0 1 0 0; ...                                 %--
+%     1 0 0 0 0; ...                                 %--
+%     0 1 0 0 0];                                    %--
 % -----------------------------------------------------
-%C = eye(5);
-D = zeros(4,1);
-
+C = eye(5);
+D = zeros(5,1);
 % Transformations
 deg2rad = pi/180;
 rad2deg = 180/pi;
@@ -41,13 +40,13 @@ k_i_phi = 0;
 
 % Calculating K_d_phi:
 wp = sqrt(a2*k_p_phi);
-zp = 1;
+zp = 0.7;
 f_kd = @(zeta, wn) (2*zeta*wn - a1)/a2;
 k_d_phi = f_kd(zp, wp);
 
 
 % PI for course angle chi
-Wx = 9;
+Wx = 20;
 wx = wp/Wx;
 zx = 0.8;
 k_p_chi = V_g/g * 2*zx*wx;
