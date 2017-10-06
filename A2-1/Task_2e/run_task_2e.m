@@ -36,6 +36,6 @@ k_i_chi = V_g/g * wx^2;
 
 %% Run simulation and plot results
 sim('BlockDprob2e.slx');
-run plot__.m
+run plot_e.m
 
 %print('plot_T2_e', '-depsc')

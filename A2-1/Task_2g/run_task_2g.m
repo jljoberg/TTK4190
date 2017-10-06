@@ -12,13 +12,14 @@ A = [-0.322, 0.052, 0.028, -1.12 , 0.002; ...       %--
                                                     %--
 B = [0 0 0 0 10]';                                  %--
                                                     %--
-%C = [0 0 0 1 0  ...                                 %--
-%     0 0 1 0 0; ...                                 %--
-%     1 0 0 0 0; ...                                 %--
-%     0 1 0 0 0];                                    %--
+C = [0 0 0 1 0; ...                                 %--
+     0 0 1 0 0; ...                                 %--
+     1 0 0 0 0; ...                                 %--
+     0 1 0 0 0];                                    %--
 % -----------------------------------------------------
-C = eye(5);
-D = zeros(5,1);
+%C = eye(5);
+D = zeros(4,1);
+
 % Transformations
 deg2rad = pi/180;
 rad2deg = 180/pi;
@@ -40,21 +41,22 @@ k_i_phi = 0;
 
 % Calculating K_d_phi:
 wp = sqrt(a2*k_p_phi);
-zp = 0.7;
+zp = 1;
 f_kd = @(zeta, wn) (2*zeta*wn - a1)/a2;
 k_d_phi = f_kd(zp, wp);
 
 
 % PI for course angle chi
-Wx = 20;
+Wx = 9;
 wx = wp/Wx;
 zx = 0.8;
 k_p_chi = V_g/g * 2*zx*wx;
 k_i_chi = V_g/g * wx^2; 
 
 %% Run simulation and plot results
-sim('BlockDprob2f.slx');
-run plot__.m
+sim('BlockDprob2g_nonlin_sat.slx');
+sim('BlockDprob2g_nonlin.slx');
+run plot_g.m
 
 %print('plot_T2_e', '-depsc')
 
