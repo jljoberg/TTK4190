@@ -19,7 +19,7 @@ k_i_phi = 0;
 
 % Calculating K_d_phi:
 wp = sqrt(a2*k_p_phi);
-zp = 0.7;
+zp = 1;
 f_kd = @(zeta, wn) (2*zeta*wn - a1)/a2;
 k_d_phi = f_kd(zp, wp);
 
