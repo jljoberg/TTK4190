@@ -54,9 +54,8 @@ k_p_chi = V_g/g * 2*zx*wx;
 k_i_chi = V_g/g * wx^2; 
 
 %% Run simulation and plot results
-sim('BlockDprob2g_nonlin_sat.slx');
-sim('BlockDprob2g_nonlin.slx');
-run plot_g.m
+sim('BlockD3d.slx');
+%run plot_3d.m
 
 %print('plot_T2_e', '-depsc')
 
