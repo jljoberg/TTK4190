@@ -1,7 +1,7 @@
 clear all; close all;
 %%  Aircraft roll and course controller
 
-%% Constants
+%% State space definitions
 
 % --- State SPACE -------------------------------------
 A = [-0.322, 0.052, 0.028, -1.12 , 0.002; ...       %--
@@ -16,9 +16,23 @@ C = [0 0 0 1 0; ...                                 %--
      0 0 1 0 0; ...                                 %--
      1 0 0 0 0; ...                                 %--
      0 1 0 0 0];                                    %--
+D = zeros(4,1);                                     %--
 % -----------------------------------------------------
-%C = eye(5);
-D = zeros(4,1);
+% --- State SPACE kalman version ----------------------
+A_k = [-0.322, 0.052, 0.028, -1.12 ; ...            %--
+     0     , 0    , 1    , -0.001; ...              %--
+     -10.6 , 0    , -2.87, 0.46  ; ...              %--
+     6.87  , 0    , -0.04, -0.32];                  %--
+                                                    %--
+B_k = [0.002, 0, -0.65, -0.2]';                     %--
+                                                    %--
+C_k = [0 1 0 0; ...                                 %--
+     0 0 1 0; ...                                   %--
+     0 0 0 1];                                      %--
+D_k = zeros(3,1);                                   %--
+% -----------------------------------------------------
+
+%% Constants
 
 % Transformations
 deg2rad = pi/180;
@@ -54,7 +68,7 @@ k_p_chi = V_g/g * 2*zx*wx;
 k_i_chi = V_g/g * wx^2; 
 
 %% Run simulation and plot results
-sim('BlockD3d.slx');
+%sim('BlockD3d.slx');
 %run plot_3d.m
 
 %print('plot_T2_e', '-depsc')
