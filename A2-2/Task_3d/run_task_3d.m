@@ -34,6 +34,9 @@ D_k = zeros(3,1);                                   %--
 
 %% Constants
 
+% Sampling time of measurements
+Ts = 1/100;
+
 % Transformations
 deg2rad = pi/180;
 rad2deg = 180/pi;
