@@ -1,6 +1,6 @@
 function [sys,x0,str,ts] = DiscKal(t,x,u,flag,data) % if method 2 is used
 disp('RUNNING')
-
+%%%%%%%%%%%%%%%%%%%%%%% TESTS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 switch flag,
 
   case 0,
@@ -22,9 +22,10 @@ switch flag,
     error(['Unhandled flag = ',num2str(flag)]);
 end
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%   FUNCTIONS  %%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%% FUNCTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 function [sys,x0,str,ts]= mdlInitializeSizes(data); %if method 2 is used
 disp('INIT');
 % This is called only at the start of the simulation. 
@@ -53,9 +54,9 @@ ts  = [-1 0]; % Sample time. [-1 0] means that sampling is
 % inherited from the driving block and that it changes during
 % minor steps.
 
-
 function sys = mdlUpdate(t,x,u, data); % if method 2 is used
 
+%%%%%%%%%%%%%% ACCSESSING DATA FROM STRUCT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 disp('TEST')
 %%% NOTE:  u(1) -> compass   |  u(2) -> rudderInput
 Ad = data.Ad;
@@ -67,6 +68,7 @@ Rd = data.Rd;
 %P0_ = data.P0_;
 %x0_ = data.x0_;
 
+%%%%%%%%%%% KALMAN EQUATIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 x_ = x(1:4);
 xHat = x(5:8);
 P_V = x(9:24);
@@ -97,4 +99,5 @@ sys=[xHat];
 function sys=mdlTerminate(t,x,u) 
 sys = [];
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

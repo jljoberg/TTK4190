@@ -1,5 +1,3 @@
-
-
 var_phi = (2*deg2rad)^2;
 var_p   = (0.5*deg2rad)^2;
 var_r   = (0.2*deg2rad)^2;
