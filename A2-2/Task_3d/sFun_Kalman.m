@@ -1,6 +1,5 @@
 function [sys,x0,str,ts] = DiscKal(t,x,u,flag,data) % if method 2 is used
-disp('RUNNING')
-%%%%%%%%%%%%%%%%%%%%%%% TESTS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ============ CHECK SCENARIO, CALL FUNC ==================================
 switch flag,
 
   case 0,
@@ -22,9 +21,9 @@ switch flag,
     error(['Unhandled flag = ',num2str(flag)]);
 end
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% =========================================================================
 
-%%%%%%%%%%%%%%%%%%%%%% FUNCTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ============ FUNCTIONS ==================================================
 
 function [sys,x0,str,ts]= mdlInitializeSizes(data); %if method 2 is used
 disp('INIT');
@@ -56,9 +55,7 @@ ts  = [-1 0]; % Sample time. [-1 0] means that sampling is
 
 function sys = mdlUpdate(t,x,u, data); % if method 2 is used
 
-%%%%%%%%%%%%%% ACCSESSING DATA FROM STRUCT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-disp('TEST')
-%%% NOTE:  u(1) -> compass   |  u(2) -> rudderInput
+% ============ ACESSING DATA FROM STRUCT ==================================
 Ad = data.Ad;
 Bd = data.Bd;
 Cd = data.Cd;
@@ -68,36 +65,39 @@ Rd = data.Rd;
 %P0_ = data.P0_;
 %x0_ = data.x0_;
 
-%%%%%%%%%%% KALMAN EQUATIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ============ UNPACK SYSTEM VARS =========================================
 x_ = x(1:4);
-xHat = x(5:8);
+xHat = x(5:8); %#ok<NASGU>
 P_V = x(9:24);
 P_ = reshape(P_V, sqrt(length(P_V)), sqrt(length(P_V)) );
 
-% Calculate the Kalman gain
-L = P_*Cd'*(Cd*P_*Cd'+Rd)^-1;
-
-% Update estimate with measurement
-xHat = x_ + L*(u(2:4) - Cd*x_);
-
-% Update error covariance matrix
-I = eye(4);
-P = (I-L*Cd)*P_*(I-L*Cd)' + L*Rd*L';
-
-% Project ahead (Following {x_, P_} have timestep k+1)
-x_ = Ad*xHat +Bd*u(1);
-P_ = Ad*P*Ad' + Qd;
-%%%%%%%%%%%%%%%%%%%%%%%%%
+% =========================================================================
+% ============ KALMAN EQUATIONS ===========================================
+                                                                        %==
+% Calculate the Kalman gain                                             %==
+L = P_*Cd'*(Cd*P_*Cd'+Rd)^-1;                                           %==
+                                                                        %==
+% Update estimate with measurement                                      %==
+xHat = x_ + L*(u(2:4) - Cd*x_);                                         %==
+                                                                        %==
+% Update error covariance matrix                                        %==
+I = eye(4);                                                             %==
+P = (I-L*Cd)*P_*(I-L*Cd)' + L*Rd*L';                                    %==
+                                                                        %==
+% Project ahead (Following {x_, P_} have timestep k+1)                  %==
+x_ = Ad*xHat +Bd*u(1);                                                  %==
+P_ = Ad*P*Ad' + Qd;                                                     %==
+                                                                        %==
+% =========================================================================
+% =========================================================================
 sys = [x_', xHat', P_(:)'];
 
 
-function sys= mdlOutputs(t,x,u,data) % if mathod 2 is used
-xHat = x(5:8)';
-% Return [psi b]
-sys=[xHat];
+function sys= mdlOutputs(t,x,u,data) %#ok<*INUSL,*INUSD>
+x_ = x(1:4)'; % sFunc output lags one time-step => output prediction
+sys = x_;
 
 function sys=mdlTerminate(t,x,u) 
 sys = [];
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

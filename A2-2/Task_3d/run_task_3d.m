@@ -34,12 +34,11 @@ D_k = zeros(3,1);                                   %--
 E_k = [0 0 0 0]';                                    %--
 % -----------------------------------------------------
 
-% --- Discrete Kalman filter State space model --------
-h = 1/100;                                          %--                                         
-Ts = 1/100;                                          %--
+% --- Discrete Kalman filter State space model --------                                     
+Ts = 1/10;                                          %--
                                                     %--
-[PHI,DELTA] = c2d(A_k,B_k,h);                       %-- 
-[PHI,GAMMA] = c2d(A_k,E_k,h);                       %--
+[PHI,DELTA] = c2d(A_k,B_k,Ts);                      %-- 
+[PHI,GAMMA] = c2d(A_k,E_k,Ts);                      %--
 H = C_k;                                            %--
 % -----------------------------------------------------
 
