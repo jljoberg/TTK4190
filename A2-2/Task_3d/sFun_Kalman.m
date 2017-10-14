@@ -1,20 +1,20 @@
-function [sys,x0,str,ts] = DiscKal(t,x,u,flag,data) % if method 2 is used
+function [sys,x0,str,ts] = sFun_Kalman(t,x,u,flag,data) % if method 2 is used
 % ============ CHECK SCENARIO, CALL FUNC ==================================
-switch flag,
+switch flag
 
-  case 0,
+  case 0
     [sys,x0,str,ts]= mdlInitializeSizes(data); %if method 2 is used
 
-  case 3,
+  case 3
     sys= mdlOutputs(t,x,u,data); % if mathod 2 is used
 
-  case 2,
+  case 2
     sys= mdlUpdate(t,x,u, data); % if method 2 is used
   
   case {1,4,}
     sys=[];
 
-  case 9,
+  case 9
       sys=mdlTerminate(t,x,u);
 
   otherwise
@@ -25,7 +25,7 @@ end
 
 % ============ FUNCTIONS ==================================================
 
-function [sys,x0,str,ts]= mdlInitializeSizes(data); %if method 2 is used
+function [sys,x0,str,ts]= mdlInitializeSizes(data) %if method 2 is used
 disp('INIT');
 % This is called only at the start of the simulation. 
 sizes = simsizes; % do not modify
@@ -53,13 +53,13 @@ ts  = [-1 0]; % Sample time. [-1 0] means that sampling is
 % inherited from the driving block and that it changes during
 % minor steps.
 
-function sys = mdlUpdate(t,x,u, data); % if method 2 is used
+function sys = mdlUpdate(t,x,u, data) % if method 2 is used
 
 % ============ ACESSING DATA FROM STRUCT ==================================
-Ad = data.Ad;
-Bd = data.Bd;
-Cd = data.Cd;
-Ed = data.Ed;
+PHI = data.Ad;
+DELTA = data.Bd;
+H = data.Cd;
+%GAMMA = data.Ed;
 Qd = data.Qd;
 Rd = data.Rd;
 %P0_ = data.P0_;
@@ -67,7 +67,7 @@ Rd = data.Rd;
 
 % ============ UNPACK SYSTEM VARS =========================================
 x_ = x(1:4);
-Ed = eye(4);
+GAMMA = eye(4);
 xHat = x(5:8); %#ok<NASGU>
 P_V = x(9:24);
 P_ = reshape(P_V, sqrt(length(P_V)), sqrt(length(P_V)) );
@@ -76,18 +76,18 @@ P_ = reshape(P_V, sqrt(length(P_V)), sqrt(length(P_V)) );
 % ============ KALMAN EQUATIONS ===========================================
                                                                         %==
 % Calculate the Kalman gain                                             %==
-L = P_*Cd'*(Cd*P_*Cd'+Rd)^-1;                                           %==
+L = P_*H'*(H*P_*H'+Rd)^-1;                                              %==
                                                                         %==
 % Update estimate with measurement                                      %==
-xHat = x_ + L*(u(2:4) - Cd*x_);                                         %==
+xHat = x_ + L*(u(2:4) - H*x_);                                          %==
                                                                         %==
 % Update error covariance matrix                                        %==
 I = eye(4);                                                             %==
-P = (I-L*Cd)*P_*(I-L*Cd)' + L*Rd*L';                                    %==
+P = (I-L*H)*P_*(I-L*H)' + L*Rd*L';                                      %==
                                                                         %==
 % Project ahead (Following {x_, P_} have timestep k+1)                  %==
-x_ = Ad*xHat +Bd*u(1);                                                  %==
-P_ = Ad*P*Ad' +Ed*Qd*Ed';                                                     %==
+x_ = PHI*xHat +DELTA*u(1);                                              %==
+P_ = PHI*P*PHI' +GAMMA*Qd*GAMMA';                                       %==
                                                                         %==
 % =========================================================================
 % =========================================================================
