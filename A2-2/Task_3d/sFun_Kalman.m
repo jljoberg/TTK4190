@@ -76,14 +76,14 @@ P_ = reshape(P_V, sqrt(length(P_V)), sqrt(length(P_V)) );
 % ============ KALMAN EQUATIONS ===========================================
                                                                         %==
 % Calculate the Kalman gain                                             %==
-L = P_*H'*(H*P_*H'+Rd)^-1;                                              %==
+K = P_*H'*(H*P_*H'+Rd)^-1;                                              %==
                                                                         %==
 % Update estimate with measurement                                      %==
-xHat = x_ + L*(u(2:4) - H*x_);                                          %==
+xHat = x_ + K*(u(2:4) - H*x_);                                          %==
                                                                         %==
 % Update error covariance matrix                                        %==
 I = eye(4);                                                             %==
-P = (I-L*H)*P_*(I-L*H)' + L*Rd*L';                                      %==
+P = (I-K*H)*P_*(I-K*H)' + K*Rd*K';                                      %==
                                                                         %==
 % Project ahead (Following {x_, P_} have timestep k+1)                  %==
 x_ = PHI*xHat +DELTA*u(1);                                              %==
