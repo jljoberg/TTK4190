@@ -34,12 +34,11 @@ D_k = zeros(3,1);                                   %--
 E_k = [0 0 0 0]';                                    %--
 % -----------------------------------------------------
 
-% --- Discrete Kalman filter State space model --------
-h = 1/100;                                          %--                                         
-Ts = 1/100;                                          %--
+% --- Discrete Kalman filter State space model --------                                     
+Ts = 1/10;                                          %--
                                                     %--
-[PHI,DELTA] = c2d(A_k,B_k,h);                       %-- 
-[PHI,GAMMA] = c2d(A_k,E_k,h);                       %--
+[PHI,DELTA] = c2d(A_k,B_k,Ts);                      %-- 
+[PHI,GAMMA] = c2d(A_k,E_k,Ts);                      %--
 H = C_k;                                            %--
 % -----------------------------------------------------
 
@@ -78,20 +77,10 @@ zx = 0.8;
 k_p_chi = V_g/g * 2*zx*wx;
 k_i_chi = V_g/g * wx^2; 
 
+%% INITIALIZE data passed to S-function running Kalman
+run init_Sfun_Kal.m
+
 %% Run simulation and plot results
-%sim('BlockD3d.slx');
-%run plot_3d.m
-
-%print('plot_T2_e', '-depsc')
-
-
-
-
-
-
-
-
-
-
-
+sim('sim_Aircraft.slx')
+run plot_3_general.m
 
