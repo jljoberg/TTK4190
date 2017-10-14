@@ -77,20 +77,10 @@ zx = 0.8;
 k_p_chi = V_g/g * 2*zx*wx;
 k_i_chi = V_g/g * wx^2; 
 
+%% INITIALIZE data passed to S-function running Kalman
+run init_Sfun_Kal.m
+
 %% Run simulation and plot results
-%sim('BlockD3d.slx');
-%run plot_3d.m
-
-%print('plot_T2_e', '-depsc')
-
-
-
-
-
-
-
-
-
-
-
+sim('BlockD3d.slx')
+run plot_3_general.m
 
