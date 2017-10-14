@@ -59,7 +59,7 @@ function sys = mdlUpdate(t,x,u, data); % if method 2 is used
 Ad = data.Ad;
 Bd = data.Bd;
 Cd = data.Cd;
-%Ed = data.Ed;
+Ed = data.Ed;
 Qd = data.Qd;
 Rd = data.Rd;
 %P0_ = data.P0_;
@@ -67,6 +67,7 @@ Rd = data.Rd;
 
 % ============ UNPACK SYSTEM VARS =========================================
 x_ = x(1:4);
+Ed = eye(4);
 xHat = x(5:8); %#ok<NASGU>
 P_V = x(9:24);
 P_ = reshape(P_V, sqrt(length(P_V)), sqrt(length(P_V)) );
@@ -86,7 +87,7 @@ P = (I-L*Cd)*P_*(I-L*Cd)' + L*Rd*L';                                    %==
                                                                         %==
 % Project ahead (Following {x_, P_} have timestep k+1)                  %==
 x_ = Ad*xHat +Bd*u(1);                                                  %==
-P_ = Ad*P*Ad' + Qd;                                                     %==
+P_ = Ad*P*Ad' +Ed*Qd*Ed';                                                     %==
                                                                         %==
 % =========================================================================
 % =========================================================================
