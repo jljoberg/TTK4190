@@ -81,6 +81,6 @@ k_i_chi = V_g/g * wx^2;
 run init_Sfun_Kal.m
 
 %% Run simulation and plot results
-sim('BlockD3d.slx')
+sim('sim_Aircraft_d.slx')
 run plot_3_general.m
 

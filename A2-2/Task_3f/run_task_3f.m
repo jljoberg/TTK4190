@@ -81,6 +81,6 @@ k_i_chi = V_g/g * wx^2;
 run init_Sfun_Kal.m
 
 %% Run simulation and plot results
-sim('sim_Aircraft.slx')
+sim('sim_Aircraft_f.slx')
 run plot_3_general.m
 
