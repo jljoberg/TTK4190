@@ -1,4 +1,4 @@
-close all; should_print = 1; %#ok<*UNRCH>
+close all; should_print = 0; %#ok<*UNRCH>
 %% Plot course
 % Course noNoise vs. withNoise
 figure
