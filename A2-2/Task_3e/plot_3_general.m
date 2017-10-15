@@ -1,9 +1,9 @@
-close all; should_print = 0; %#ok<*UNRCH>
+close all; should_print = 1; %#ok<*UNRCH>
 %% Plot course
 % Course noNoise vs. withNoise
 figure
-plot(sim_course.time, sim_course.data(:,:)); grid on;
-legend('\chi_{desired}', '\chi_{true}','\chi_{estimate}'); xlabel('Time [s]'); ylabel('Angle [deg]'); title('Course angle, measurement feedback')
+plot(sim_course.time, sim_course.data(:,1),sim_course.time, sim_course.data(:,2) ); grid on;
+legend('\chi_{desired}', '\chi_{true}'); xlabel('Time [s]'); ylabel('Angle [deg]'); title('Course angle, measurement feedback')
 xlim([0, 230]);
 
 if should_print; print('3e_fig_course', '-depsc'); end 
