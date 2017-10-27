@@ -28,7 +28,7 @@
 
 %%
 tstart=0;           % Sim start time
-tstop=10000;        % Sim stop time
+tstop=30000;        % Sim stop time
 tsamp=10;           % Sampling time for how often states are stored. (NOT ODE solver time step)
                 
 p0=zeros(2,1);      % Initial position (NED)
@@ -37,25 +37,35 @@ psi0=0;             % Inital yaw angle
 r0=0;               % Inital yaw rate
 c=0;                % Current on (1)/off (0)
 
-ncommand = 8;       % Shaft speed (rad/s)
+K_tau = zeros(8,1);
+T = zeros(8,1);
 
-modelName = 'Sim1_6';
-sim(strcat(modelName, '.slx')); 
+for ncommand = 1:8      % Shaft speed (rad/s)
 
-u = v(:,1);
+    modelName = 'Sim1_6';
+    sim(strcat(modelName, '.slx')); 
 
-plot(t, u);
-legend('Surge speed');
+    u = v(:,1);
 
-% % nonlinear least-squares parametrization: T dr/dt + r = K delta,   delta = -delta_R
-% % x(1) = 1/T and x(2) = K
-% x0 = [0.1 1]'
-% F = inline('exp(-tdata*x(1))*0 + x(2)*(1-exp(-tdata*x(1)))*5','x','tdata')
+    % % nonlinear least-squares parametrization: T dr/dt + r = K delta,   delta = -delta_R
+    % % x(1) = 1/T and x(2) = K
+    x0 = [u(length(u)), 1];
+    lb = [u(length(u)), -inf];     % Restrict K_tau to last (steady state) value of u
+    ub = [u(length(u)), inf];      % Restrict K_tau to last (steady state) value of u
+    F = inline('x(1)*(1-exp(-t*x(2)))', 'x', 't');
+    x = lsqcurvefit(F, x0, t, u, lb, ub);
 
-F = inline('(1-exp(-t*
-% x = lsqcurvefit(F,x0, tdata, rdata);
+    K_tau(ncommand) = x(1);
+    T(ncommand) = 1/x(2);
 
-Plotting
+%     figure();
+%     plot(t, u); hold on; plot(t, F(x, t)); legend('Surge speed', 'Modelled surge speed');
+end
+figure();
+stem(K_tau);
+figure();
+stem(T);
+% Plotting
 % sim MSFartoystyring % The measurements from the simulink model are automatically written to the workspace.
 
  
