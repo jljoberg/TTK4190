@@ -37,4 +37,4 @@ psi0=0;             % Inital yaw angle
 r0=0;               % Inital yaw rate
 c=0;                % Current on (1)/off (0)
 
-%sim MSFartoystyring % The measurements from the simulink model are automatically written to the workspace.
+sim MSFartoystyring % The measurements from the simulink model are automatically written to the workspace.
