@@ -96,6 +96,6 @@ stem(T);
 % Plotting
 % sim MSFartoystyring % The measurements from the simulink model are automatically written to the workspace.
 
-suggested_T = avg(T);
-suggested_K = avg(K);
+suggested_T = mean(T);
+suggested_K = mean(K);
  
