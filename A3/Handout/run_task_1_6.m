@@ -37,11 +37,35 @@ psi0=0;             % Inital yaw angle
 r0=0;               % Inital yaw rate
 c=0;                % Current on (1)/off (0)
 
-K_tau = zeros(8,1);
-T = zeros(8,1);
+n_start = 3;
+n_end = 8;
+N = n_end - n_start;
 
-for ncommand = 1:8      % Shaft speed (rad/s)
+u_ss = zeros(N + 1,1);  % Steady state value at ncommand = index + n_start - 2
+K = zeros(N,1);     % K = 1/m
+T = zeros(N,1);     % T = m/d at ncommand = index + n_start - 1
 
+ncommand = n_start-1;
+
+modelName = 'Sim1_6';
+sim(strcat(modelName, '.slx')); 
+    
+u = v(:,1);
+u_ss(1) = u(length(u));
+
+for ncommand = n_start:n_end      % Shaft speed (rad/s)
+    u_ss_index = ncommand - n_start + 2;
+    parameter_index = ncommand - n_start + 1;
+    v0 = [0.01,0]';
+    
+    modelName = 'Sim1_6';
+    sim(strcat(modelName, '.slx')); 
+    
+    u = v(:,1);
+    u_ss(u_ss_index) = u(length(u));
+    
+    v0 = [u_ss(u_ss_index),0]';
+    
     modelName = 'Sim1_6';
     sim(strcat(modelName, '.slx')); 
 
@@ -49,20 +73,24 @@ for ncommand = 1:8      % Shaft speed (rad/s)
 
     % % nonlinear least-squares parametrization: T dr/dt + r = K delta,   delta = -delta_R
     % % x(1) = 1/T and x(2) = K
-    x0 = [u(length(u)), 1];
-    lb = [u(length(u)), -inf];     % Restrict K_tau to last (steady state) value of u
-    ub = [u(length(u)), inf];      % Restrict K_tau to last (steady state) value of u
-    F = inline('x(1)*(1-exp(-t*x(2)))', 'x', 't');
+    x0 = [u_ss(u_ss_index-1), u_ss(u_ss_index), 1];
+    lb = [u_ss(u_ss_index-1), u_ss(u_ss_index), -inf];     % Restrict K_tau to last (steady state) value of u
+    ub = [u_ss(u_ss_index-1), u_ss(u_ss_index), inf];      % Restrict K_tau to last (steady state) value of u
+    F = inline('x(1) + x(2)*(1-exp(-t*x(3)))', 'x', 't');
     x = lsqcurvefit(F, x0, t, u, lb, ub);
 
-    K_tau(ncommand) = x(1);
-    T(ncommand) = 1/x(2);
+    K(parameter_index) = x(2);
+    T(parameter_index) = 1/x(3);
 
 %     figure();
 %     plot(t, u); hold on; plot(t, F(x, t)); legend('Surge speed', 'Modelled surge speed');
 end
+
+ncommands = n_start:n_end;
+K = K./ncommands';
+
 figure();
-stem(K_tau);
+stem(K);
 figure();
 stem(T);
 % Plotting
