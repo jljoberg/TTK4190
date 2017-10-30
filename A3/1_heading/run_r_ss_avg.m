@@ -36,12 +36,16 @@ end
 
 %plot(rad2deg*dc_V, rad2deg*r_V); ylabel('r_{ss}'); xlabel('\delta_c')
 
-%% Calculate K
+%% Plot
+close all
+for i=1:size(T,2)
+    figure; hold on
+    plot(t,rV(i,:)); plot(t, F([dc_V(i)*K(2),T(2)],t))
+    xlim([0 1000]);
+end
 
-%K = mean(r_V./dc_V);
 
 
 
 
 
-%sim MSFartoystyring % The measurements from the simulink model are automatically written to the workspace.
