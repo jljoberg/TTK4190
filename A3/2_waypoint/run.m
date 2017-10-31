@@ -36,5 +36,6 @@ v0=[4.9 0]';       % Initial velocity (body)
 psi0=0;             % Inital yaw angle
 r0=0;               % Inital yaw rate
 c=0;                % Current on (1)/off (0)
+load('WP.mat')
 
-sim MSFartoystyring % The measurements from the simulink model are automatically written to the workspace.
+%sim MSFartoystyring % The measurements from the simulink model are automatically written to the workspace.
