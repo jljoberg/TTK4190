@@ -28,7 +28,7 @@
 
 %%
 tstart=0;           % Sim start time
-tstop=10000;        % Sim stop time
+tstop=7500;        % Sim stop time
 tsamp=10;           % Sampling time for how often states are stored. (NOT ODE solver time step)
                 
 p0=zeros(2,1);      % Initial position (NED)
