@@ -42,6 +42,7 @@ for i=1:size(T,2)
     figure; hold on
     plot(t,rV(i,:)); plot(t, F([dc_V(i)*K(2),T(2)],t))
     xlim([0 1000]);
+    legend('Heading', 'Curve fitted heading');
 end
 
 
