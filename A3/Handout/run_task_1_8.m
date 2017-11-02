@@ -26,32 +26,47 @@
 % position in the second row. 
 close all
 clear all
-%% Model
-T = 40;
-K = -0.02;
-omega_b = 7;
-zeta = 1;
-omega_n = omega_b/(sqrt(1-2*zeta^2+sqrt(4*zeta^4-4*zeta^2+2)));
-K_m = 0;
-m=T/K;
-k=0;
-d=1/K;
-K_p =-18;%- (m+K_m)*omega_n^2-k; %=-18;%
-K_d = 350; %2*zeta*omega_n*(m+K_m)-d; %=350;%
-K_i = -1/100; %0
+%% Heading Model
+T_psi = 40;
+K_psi = -0.02;
+omega_b_psi = 7;
+zeta_psi = 1;
+omega_n_psi = omega_b_psi/(sqrt(1-2*zeta_psi^2+sqrt(4*zeta_psi^4-4*zeta_psi^2+2)));
+K_m_psi = 0;
+m_psi=T_psi/K_psi;
+k_psi=0;
+d_psi=1/K_psi;
+K_p = -18; %(m_psi+K_m_psi)*omega_n_psi^2-k_psi; %
+K_d = 350; % 2*zeta_psi*omega_n_psi*(m_psi+K_m_psi)-d_psi; %=350;%
+K_i = 0; %-1/100
+
+%% Surge Model
+T_u = 9.5181e04;
+K_u = 0.8157;
+omega_b_u = 7;
+zeta_u = 1;
+omega_n_u = omega_b_u/(sqrt(1-2*zeta_u^2+sqrt(4*zeta_u^4-4*zeta_u^2+2)));
+K_m_u = 0;
+m_u=T_u/K_u;
+k_u=0;
+d_u=1/K_u;
+K_p_u = -100; %-(m_u+K_m_u)*omega_n_u^2-k_u; %-100
+K_d_u = -1; %2*zeta_u*omega_n_u*(m_u+K_m_u)-d_u; %10
+K_i_u = 0; %-1/100
+
 
 %%
 tstart=0;           % Sim start time
-tstop=20000;        % Sim stop time
+tstop=4000;        % Sim stop time
 tsamp=10;           % Sampling time for how often states are stored. (NOT ODE solver time step)
                 
 p0=zeros(2,1);      % Initial position (NED)
-v0=[6.63 0]';       % Initial velocity (body)
+v0=[4 0]';       % Initial velocity (body)
 psi0=0;             % Inital yaw angle
 r0=0;               % Inital yaw rate
 c=0;                % Current on (1)/off (0)
 
-modelName = 'Sim1_4';
+modelName = 'Sim1_8';
 sim(strcat(modelName, '.slx'));
 
 dc = rad2deg(dc);
@@ -64,7 +79,15 @@ for i = 1:length(dc)
     end
 end
 
-
+n_max = 85*2*pi/60;
+for i = 1:length(nc)
+    if(nc(i) > n_max)
+        nc(i) =n_max;
+    elseif(nc(i) < -n_max)
+        nc(i) = -n_max;
+    end
+end
+nc = rad2deg(nc);
 Plotting
 u = v(:,1);
 % sim MSFartoystyring % The measurements from the simulink model are automatically written to the workspace.
