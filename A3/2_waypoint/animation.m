@@ -2,7 +2,9 @@ clc; close all
 figure; hold on;
 plot(p(:,1), p(:,2)); xlim([-19000 4000]); ylim([-6000 2000]);
 plotWP
-pause(1)
+
+
+pause(4)
 
 hold off; plotWP; hold on; 
 for i = 1:size(p,1)
@@ -15,8 +17,7 @@ for i = 1:size(p,1)
     h4 = plot([p(i,1); psi_x], [p(i,2); psi_y], 'k');
     xlim([-19000 4000]); ylim([-6000 2000]); %ylim([-5000 1000])
     
-    pause(0.005*1)
+    pause(0.005*10)
     delete(h1); delete(h2); delete(h3); delete(h4);
 end
 
-    
