@@ -25,14 +25,28 @@
 % the assignment. The north position is given in the first row and the east
 % position in the second row. 
 close all
+clear all
+%% Model
+T = 40;
+K = -0.02;
+omega_b = 7;
+zeta = 1;
+omega_n = omega_b/(sqrt(1-2*zeta^2+sqrt(4*zeta^4-4*zeta^2+2)));
+K_m = 0;
+m=T/K;
+k=0;
+d=1/K;
+K_p = (m+K_m)*omega_n^2-k; %=-18;%
+K_d = 2*zeta*omega_n*(m+K_m)-d; %=350;%
+K_i = 0; %-1/100
 
 %%
 tstart=0;           % Sim start time
-tstop=10000;        % Sim stop time
+tstop=20000;        % Sim stop time
 tsamp=10;           % Sampling time for how often states are stored. (NOT ODE solver time step)
                 
 p0=zeros(2,1);      % Initial position (NED)
-v0=[0.1 0]';       % Initial velocity (body)
+v0=[6.63 0]';       % Initial velocity (body)
 psi0=0;             % Inital yaw angle
 r0=0;               % Inital yaw rate
 c=0;                % Current on (1)/off (0)
@@ -40,6 +54,17 @@ c=0;                % Current on (1)/off (0)
 modelName = 'Sim1_4';
 sim(strcat(modelName, '.slx'));
 
+dc = rad2deg(dc);
+for i = 1:length(dc)
+    if(dc(i) > 25)
+        dc(i) =25;
+    elseif(dc(i) < -25)
+        dc(i) = -25;
+    end
+end
+
+
 Plotting
+u = v(:,1);
 % sim MSFartoystyring % The measurements from the simulink model are automatically written to the workspace.
 
