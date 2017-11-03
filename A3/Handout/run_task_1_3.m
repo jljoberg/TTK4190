@@ -39,15 +39,39 @@ v0=[6.63 0]';       % Initial velocity (body)
 psi0=0;             % Inital yaw angle
 r0=0;               % Inital yaw rate
 c=1;                % Current on (1)/off (0)
-%% Model
-hold on;
+%% Test different K and T
+close; figure; hold on; title('Compare K,T sets, given \omega_b=0.06')
 for i = 1:size(T_V,2);
   T = T_V(i);
   K = K_V(i);
   omega_b = .06;
-  %T = 40;
-  %K = -0.02;
-  %omega_b = .03;
+
+  zeta = 1;
+  omega_n = omega_b/(sqrt(1-2*zeta^2+sqrt(4*zeta^4-4*zeta^2+2)));
+  K_m = 0;
+  m=T/K;
+  k=0;
+  d=1/K;
+  K_p = (m+K_m)*omega_n^2-k; %=-18;%-18;
+  K_d = 2*zeta*omega_n*(m+K_m)-d; %=350;%
+  K_d = -K_d;
+  K_i = 0*K_p*omega_n/10;
+
+  modelName = 'Sim1_3';
+  sim(strcat(modelName, '.slx'));
+ 
+  plot(t, psi*180/pi)
+end
+legend('1','2','3','4', '5')
+
+
+%% Test different omega_b, given best T,K
+figure; hold on; title('Compare \omega_b, given T/K set 1')
+for i = 6:8;
+  T = T_V(1);
+  K = K_V(1);
+  omega_b = 0.01*i;
+
   zeta = 1;
   omega_n = omega_b/(sqrt(1-2*zeta^2+sqrt(4*zeta^4-4*zeta^2+2)));
   K_m = 0;
@@ -62,13 +86,6 @@ for i = 1:size(T_V,2);
   modelName = 'Sim1_3';
   sim(strcat(modelName, '.slx'));
   
-  %psi_V(:,i) = psi;
-  %Plotting
   plot(t, psi*180/pi)
 end
-legend('1','2','3','4','5','6')
-
-%Plotting
-u = v(:,1);
-% sim MSFartoystyring % The measurements from the simulink model are automatically written to the workspace.
-
+legend('0.02','0.04','0.06','0.08', '0.10')

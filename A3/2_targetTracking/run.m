@@ -41,7 +41,7 @@ c=1;                % Current on (1)/off (0)
 load('WP.mat'); WP = [WP, zeros(2,10)];
 
 %%
-sim MSFartoystyring % The measurements from the simulink model are automatically written to the workspace.
+sim trackTarget % The measurements from the simulink model are automatically written to the workspace.
 
 %%
 animation
