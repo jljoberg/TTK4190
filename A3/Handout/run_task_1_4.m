@@ -27,12 +27,12 @@
 close all
 clear all
 %% Model
-% T = 100;
-% K = -0.05;
-% omega_b = .06;
-T = 40;
-K = -0.02;
-omega_b = .03;
+ T = 100;
+ K = -0.05;
+ omega_b = .06;
+%T = 40;
+%K = -0.02;
+%omega_b = .03;
 zeta = 1;
 omega_n = omega_b/(sqrt(1-2*zeta^2+sqrt(4*zeta^4-4*zeta^2+2)));
 K_m = 0;

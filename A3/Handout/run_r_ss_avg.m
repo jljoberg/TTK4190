@@ -13,7 +13,7 @@ c=0;                % Current on (1)/off (0)
 deg2rad = pi/180;
 rad2deg = 1/deg2rad;
 
-dc_V = (5:1:10) * deg2rad;
+dc_V = (5:5:25) * deg2rad;
 r_V  = zeros(size(dc_V));
 K    = zeros(size(dc_V));
 T    = zeros(size(dc_V));
@@ -37,6 +37,8 @@ end
 %plot(rad2deg*dc_V, rad2deg*r_V); ylabel('r_{ss}'); xlabel('\delta_c')
 
 %% Plot
+
+%{
 close all
 for i=1:size(T,2)
     figure; hold on
@@ -45,7 +47,7 @@ for i=1:size(T,2)
     legend('Heading', 'Curve fitted heading');
 end
 
-
+%}
 
 
 
