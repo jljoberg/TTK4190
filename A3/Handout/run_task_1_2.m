@@ -15,8 +15,7 @@ c=0;                % Current on (1)/off (0)
 deg2rad = pi/180;
 rad2deg = 1/deg2rad;
 
-dc_V = (5:1:10) * deg2rad;
-
+dc_V = (5:0.2:6) * deg2rad;% dc_V(1) = 6*deg2rad;
 r_V  = zeros(size(dc_V));
 K    = zeros(size(dc_V));
 T    = zeros(size(dc_V));
