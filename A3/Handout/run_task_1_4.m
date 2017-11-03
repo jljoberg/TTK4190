@@ -27,18 +27,22 @@
 close all
 clear all
 %% Model
+% T = 100;
+% K = -0.05;
+% omega_b = .06;
 T = 40;
 K = -0.02;
-omega_b = 7;
+omega_b = .03;
 zeta = 1;
 omega_n = omega_b/(sqrt(1-2*zeta^2+sqrt(4*zeta^4-4*zeta^2+2)));
 K_m = 0;
 m=T/K;
 k=0;
 d=1/K;
-K_p =-18;%- (m+K_m)*omega_n^2-k; %=-18;%
-K_d = 350; %2*zeta*omega_n*(m+K_m)-d; %=350;%
-K_i = -1/100; %0
+K_p = (m+K_m)*omega_n^2-k; %=-18;%-18;
+K_d = 2*zeta*omega_n*(m+K_m)-d; %=350;%
+K_d = -K_d;
+K_i = K_p*omega_n/10;
 
 %%
 tstart=0;           % Sim start time

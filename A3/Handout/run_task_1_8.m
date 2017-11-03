@@ -24,35 +24,37 @@
 % WP.mat is a set of six waypoints that you need to use in the second part of
 % the assignment. The north position is given in the first row and the east
 % position in the second row. 
-close all
+% close all
 clear all
 %% Heading Model
-T_psi = 40;
-K_psi = -0.02;
-omega_b_psi = 7;
-zeta_psi = 1;
+% T_psi = 40;
+% K_psi = -0.02;
+% omega_b_psi = .03;
+T_psi = 100;
+K_psi = -0.05;
+omega_b_psi = .06;zeta_psi = 1;
 omega_n_psi = omega_b_psi/(sqrt(1-2*zeta_psi^2+sqrt(4*zeta_psi^4-4*zeta_psi^2+2)));
 K_m_psi = 0;
 m_psi=T_psi/K_psi;
 k_psi=0;
 d_psi=1/K_psi;
-K_p = -18; %(m_psi+K_m_psi)*omega_n_psi^2-k_psi; %
-K_d = 350; % 2*zeta_psi*omega_n_psi*(m_psi+K_m_psi)-d_psi; %=350;%
-K_i = 0; %-1/100
+K_p = (m_psi+K_m_psi)*omega_n_psi^2-k_psi; %-18; %-40
+K_d = -2*zeta_psi*omega_n_psi*(m_psi+K_m_psi)-d_psi; %=350;%= 350; %1/40
+K_i = 0;%-1/100; %-1/100
 
 %% Surge Model
-T_u = 9.5181e04;
-K_u = 0.8157;
-omega_b_u = 7;
+T_u = 120;
+K_u = 0.02; %0.8157;
+omega_b_u = .05;
 zeta_u = 1;
 omega_n_u = omega_b_u/(sqrt(1-2*zeta_u^2+sqrt(4*zeta_u^4-4*zeta_u^2+2)));
 K_m_u = 0;
 m_u=T_u/K_u;
 k_u=0;
 d_u=1/K_u;
-K_p_u = -100; %-(m_u+K_m_u)*omega_n_u^2-k_u; %-100
-K_d_u = -1; %2*zeta_u*omega_n_u*(m_u+K_m_u)-d_u; %10
-K_i_u = 0; %-1/100
+K_p_u = -(m_u+K_m_u)*omega_n_u^2-k_u; %-100
+K_d_u = 2*zeta_u*omega_n_u*(m_u+K_m_u)-d_u; %10
+K_i_u = K_p_u*omega_n_u/10;
 
 
 %%
