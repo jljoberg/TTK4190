@@ -40,7 +40,7 @@ psi0=0;             % Inital yaw angle
 r0=0;               % Inital yaw rate
 c=1;                % Current on (1)/off (0)
 %% Test different K and T
-close; figure; hold on; title('Compare K,T sets, given \omega_b=0.06')
+close; figure; hold on; title('Compare K,T sets, given \omega_b=0.06');
 for i = 1:size(T_V,2);
   T = T_V(i);
   K = K_V(i);
@@ -60,9 +60,10 @@ for i = 1:size(T_V,2);
   modelName = 'Sim1_3';
   sim(strcat(modelName, '.slx'));
  
-  plot(t, psi*180/pi)
+  plot(t, psi*rad2deg)
 end
-legend('1','2','3','4', '5')
+inputStepLegendCell = cellstr(num2str([dc_V'*rad2deg , K_V' , T_V'], 'delta_c = %g, K = %g, T = %g'));
+legend(inputStepLegendCell);
 
 
 %% Test different omega_b, given best T,K
@@ -88,4 +89,5 @@ for i = 6:8;
   
   plot(t, psi*180/pi)
 end
-legend('0.02','0.04','0.06','0.08', '0.10')
+bandwidthLegendCell = cellstr(num2str((1:8)'.*0.01, 'omega_b = %g'));
+legend(bandwidthLegendCell);
