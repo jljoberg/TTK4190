@@ -25,7 +25,7 @@
 % the assignment. The north position is given in the first row and the east
 % position in the second row. 
 % close all
-clear all
+clear all; close all; 
 %% Heading Model
 % T_psi = 40;
 % K_psi = -0.02;
