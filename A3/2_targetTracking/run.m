@@ -30,8 +30,8 @@
 clear all; close all;
 
 tstart=0;           % Sim start time
-tstop=7500;        % Sim stop time
-tsamp=10;           % Sampling time for how often states are stored. (NOT ODE solver time step)
+tstop=4300*3;        % Sim stop time
+tsamp=10*1;           % Sampling time for how often states are stored. (NOT ODE solver time step)
                 
 p0=[1500, 500];      % Initial position (NED)
 v0=[6.63 0]';       % Initial velocity (body)

@@ -7,10 +7,10 @@ plotPoint(WP(:,6))
 
 
 
-plot(p(1,1), p(1,2), 'ro');
+plot(p(1,2), p(1,1), 'ro');
 
 for i = 1:5
-    plot([WP(1,i); WP(1,i+1)] ,  [WP(2,i); WP(2,i+1)], 'g', 'LineStyle', '-')
+    plot([WP(2,i); WP(2,i+1)] ,  [WP(1,i); WP(1,i+1)], 'g', 'LineStyle', '-')
 end
 
 
