@@ -1,33 +1,50 @@
 clc; close all
-figure; hold on;
-plot(p(:,1), p(:,2)); xlim([-19000 6000]); ylim([-16000 6000]);
-plotWP
+%%
+L = 304.8;
+x = p(:,1); y = p(:,2);
+
+ax_x = [-12000 4000]; ax_y = [-16000 3000];
+%x = p(:,2); y = p(:,1); % DO NOT DO THIS
+
+%%
+fig = figure('units','normalized','outerposition',[0 0 1 1]);
+hold on; 
+plot(p(:,2), p(:,1));
+xlim(ax_x); ylim(ax_y);
+plotPoint(WP(:,1)); plotPoint(WP(:,2))
 
 
-pause(2)
-hold off;
 
-%fig = figure('units','normalized','outerposition',[0 0 1 1])
-plotWP; hold on; 
-%h0 = animatedline();
+pause(1)
+clf
 
-for i = 1:size(p,1)
-    h = plot(p_target(i,1), p_target(i,2), 'k^');
-    chi_x = 1000*cos(chi_c(i)) + p(i,1);  chi_y = 1000*sin(chi_c(i)) + p(i,2);
-    psi_x = 700*cos(psi(i)) + p(i,1);     psi_y = 700*sin(psi(i)) + p(i,2);
+%%
+F(size(p,1)) = struct('cdata',[],'colormap',[]);
+
+hold on; 
+plotPoint(WP(:,1)); plotPoint(WP(:,2))
+
+
+for i = 1:size(p,1)    
+    xlim(ax_x); ylim(ax_y);
+    % BOAT
+    tmpR=[cos(psi(i)) -sin(psi(i)); sin(psi(i)) cos(psi(i))];
+    boat = tmpR*[L/2 .9*L/2 .5*L/2 -L/2 -L/2 .5*L/2 .9*L/2 L/2; 
+              0 10 20 20 -20 -20 -10 0];
+    hb1 = plot(y(i)+boat(2,:),x(i)+boat(1,:),'y');
+    hb2 = patch(y(i)+boat(2,:),x(i)+boat(1,:),'y');
     
-    %addpoints(h0, p(i,1), p(i,2));
-    h1 = plot(p(i,1), p(i,2), 'b*');
-    %h2 = plot(LOS(i,1), LOS(i,2), 'g*');
-    h3 = plot([p(i,1); chi_x], [p(i,2); chi_y], 'c');
-    h4 = plot([p(i,1); psi_x], [p(i,2); psi_y], 'k');
-    xlim([-19000 6000]); ylim([-16000 6000]); %ylim([-5000 1000])
+    % TARGET
+    h = plot(p_target(i,2), p_target(i,1), 'k^');    
+    
+    % save frame / clear fig
     F(i) = getframe();
-    %pause(0.005*10)
-    delete(h)
-    delete(h1); delete(h3); delete(h4);
+    delete(h); delete(hb1); delete(hb2);
 end
 
+%%
 close;
-movie(F,1,1600)
+fig2 = figure('units','normalized','outerposition',[0 0 1 1]);
+xlim(ax_x); ylim(ax_y);
+movie(F,3,1600)
 
