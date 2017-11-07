@@ -1,0 +1,4 @@
+Testing parameters curve fit surge speed u
+d_min = -0.001, d_max = 0.001 
+n_c = [rad/s] : 
+	a =  -7.143,   b =   -0.002885 , c =  6.628
