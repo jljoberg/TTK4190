@@ -27,15 +27,15 @@
 
 
 %%
-clear all; close all;
+clear all; close all; %#ok<*CLALL>
 
 tstart=0;           % Sim start time
-tstop=4300*3;        % Sim stop time
+tstop=5000;        % Sim stop time
 tsamp=10*1;           % Sampling time for how often states are stored. (NOT ODE solver time step)
                 
 p0=[1500, 500];      % Initial position (NED)
 v0=[6.63 0]';       % Initial velocity (body)
-psi0=50*pi/180;             % Inital yaw angle
+psi0=50*pi/180;     % Inital yaw angle
 r0=0;               % Inital yaw rate
 c=1;                % Current on (1)/off (0)
 load('WP.mat'); WP = [WP, zeros(2,10)];
@@ -44,4 +44,5 @@ load('WP.mat'); WP = [WP, zeros(2,10)];
 sim trackTarget % The measurements from the simulink model are automatically written to the workspace.
 
 %%
+plotDistance
 animation
