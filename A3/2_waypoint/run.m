@@ -44,4 +44,5 @@ load('WP.mat'); WP = [WP, zeros(2,10)];
 sim MSFartoystyring % The measurements from the simulink model are automatically written to the workspace.
 
 %%
-animation
+%animation
+plot_WP_steps
