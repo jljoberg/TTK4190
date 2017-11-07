@@ -79,12 +79,13 @@ if track
     dx = WP(1,2)+3*cos(psiTemp)*tim-x;
     dy = WP(2,2)+3*sin(psiTemp)*tim-y;
     
-    figure
+    figure; hold on;
     plot(tim,sqrt(dx.^2+dy.^2));
+    plot(tim, 400*ones(size(tim)))
     xlabel('time [s]')
     ylabel('distance [m]')
     grid on;
-    title('Distance to target')
+    title('Distance to target'); legend('Distance to target', 'Desired distance')
     
     figure
     hold on

@@ -32,7 +32,6 @@ for i = 1:dec:size(p,1)
     
     xlim(ax_x); ylim(ax_y);
     F(ceil(i/dec)) = getframe();
-    %pause(0.005*10)
     delete(h1); delete(hb1); delete(hb2)
 end
 %%
@@ -40,6 +39,6 @@ close;
 fig2 = figure('units','normalized','outerposition',[0 0 1 1]);
 xlim(ax_x); ylim(ax_y);
 title('Path following, current on'); xlabel('East [m]'); ylabel('North [m]')
-movie(F,1,10)
+movie(F,1,40)
 
 

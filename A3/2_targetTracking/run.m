@@ -44,5 +44,5 @@ load('WP.mat'); WP = [WP, zeros(2,10)];
 sim trackTarget % The measurements from the simulink model are automatically written to the workspace.
 
 %%
-plotDistance
+pathplotter(p(:,1),p(:,2),psi,tsamp,12,tstart,tstop,1,WP);
 animation

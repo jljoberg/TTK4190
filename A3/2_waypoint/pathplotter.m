@@ -63,6 +63,7 @@ for now=1:dec:length(x)
     tnow=tnow+tsamp*dec;
 end
 hold off
+title('Boat position')
 xlabel('East [m]')
 ylabel('North [m]')
 axis equal

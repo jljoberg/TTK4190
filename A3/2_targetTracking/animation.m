@@ -20,11 +20,8 @@ clf
 %%
 F(floor(size(p,1)/dec)) = struct('cdata',[],'colormap',[]);
 
-hold on; xlabel('East [m]'); ylabel('North [m]'); ; title('Target tracking')
+hold on; xlabel('East [m]'); ylabel('North [m]'); title('Target tracking')
 plotPoint(WP(:,1)); plotPoint(WP(:,2))
-
-
-
 
 for i = 1:dec:size(p,1)
     figure(fig)
@@ -48,5 +45,5 @@ end
 close;
 fig2 = figure('units','normalized','outerposition',[0 0 1 1]);
 xlim(ax_x); ylim(ax_y); xlabel('East [m]'); ylabel('North [m]'); title('Target tracking')
-movie(F,2,10)
+movie(F,1,10)
 
