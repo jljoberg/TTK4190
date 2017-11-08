@@ -34,7 +34,7 @@ chi_i_on = 0;   % course compensation on (1) / off (0)    ||
 % ==========================================================
 
 tstart=0;           % Sim start time
-tstop=6400;        % Sim stop time
+tstop=5900;        % Sim stop time
 tsamp=10;           % Sampling time for how often states are stored. (NOT ODE solver time step)
                 
 p0=[1500, 500];      % Initial position (NED)
