@@ -8,7 +8,7 @@ plot(t, rad2deg(psi)); hold on; plot(t, rad2deg(psi_d)); plot(t, rad2deg(psi-psi
 legend('\psi', '\psi_d', '\psi error'); ylabel('Heading Angle (deg)')
 title({strrep(modelName, '_', ' '), '\Psi, r and \delta_c'});
 subplot(3, 1, 2)
-plot(t, r); hold on; plot(t, r_d); plot(t, r-r_d)
+plot(t, rad2deg(r)); hold on; plot(t, rad2deg(r_d)); plot(t, rad2deg(r-r_d))
 legend('r', 'r_d', 'r error'); ylabel('Heading Velocity (deg/s)')
 subplot(3, 1, 3)
 plot(t, dc); hold on; plot(t, max_rudder*ones(size(t)), '-r'); plot(t, -max_rudder*ones(size(t)), '-r')
