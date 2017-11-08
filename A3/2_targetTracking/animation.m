@@ -45,5 +45,5 @@ end
 close;
 fig2 = figure('units','normalized','outerposition',[0 0 1 1]);
 xlim(ax_x); ylim(ax_y); xlabel('East [m]'); ylabel('North [m]'); title('Target tracking')
-movie(F,1,10)
+movie(F,1,16)
 
