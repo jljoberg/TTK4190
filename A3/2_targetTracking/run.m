@@ -30,7 +30,7 @@
 clear all; close all; %#ok<*CLALL>
 
 tstart=0;           % Sim start time
-tstop=5000;        % Sim stop time
+tstop=4000;        % Sim stop time
 tsamp=10*1;           % Sampling time for how often states are stored. (NOT ODE solver time step)
                 
 p0=[1500, 500];      % Initial position (NED)

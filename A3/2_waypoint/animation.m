@@ -1,6 +1,6 @@
 clc; close all; clear F
 %%
-dec = 4;
+dec = 4; %4
 L = 304.8;
 x = p(:,1); y = p(:,2);
 ax_x = [-6000 2000]; ax_y = [-19000 4000];

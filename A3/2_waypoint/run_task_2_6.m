@@ -45,7 +45,7 @@ c=1;                % Current on (1)/off (0)
 load('WP.mat'); WP = [WP, WP(:,end)+[0;-10^6]];
 
 %%
-sim MSFartoystyring % The measurements from the simulink model are automatically written to the workspace.
+sim MSFartoystyring_WP% The measurements from the simulink model are automatically written to the workspace.
 
 %%
 try %#ok<*TRYNC>
