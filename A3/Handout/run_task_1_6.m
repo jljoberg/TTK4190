@@ -39,7 +39,7 @@ c=0;                % Current on (1)/off (0)
 
 n_start = 3;
 n_end = 8;
-N = n_end - n_start;
+N = n_end - (n_start - 1);
 
 u_ss = zeros(N + 1,1);  % Steady state value at ncommand = index + n_start - 2
 K = zeros(N,1);     % K = 1/m
@@ -53,6 +53,7 @@ sim(strcat(modelName, '.slx'));
 u = v(:,1);
 u_ss(1) = u(length(u));
 
+figure();
 for ncommand = n_start:n_end      % Shaft speed (rad/s)
     u_ss_index = ncommand - n_start + 2;
     parameter_index = ncommand - n_start + 1;
@@ -64,7 +65,7 @@ for ncommand = n_start:n_end      % Shaft speed (rad/s)
     u = v(:,1);
     u_ss(u_ss_index) = u(length(u));
     
-    v0 = [u_ss(u_ss_index),0]';
+    v0 = [u_ss(u_ss_index - 1),0]';
     
     modelName = 'Sim1_6';
     sim(strcat(modelName, '.slx')); 
@@ -72,30 +73,31 @@ for ncommand = n_start:n_end      % Shaft speed (rad/s)
     u = v(:,1);
 
     % % nonlinear least-squares parametrization: T dr/dt + r = K delta,   delta = -delta_R
-    % % x(1) = 1/T and x(2) = K
+    % % x(1) = initial speed, x(2) = K*ncommand, and x(3) = 1/T
     x0 = [u_ss(u_ss_index-1), u_ss(u_ss_index), 1];
-    lb = [u_ss(u_ss_index-1), u_ss(u_ss_index), -inf];     % Restrict K_tau to last (steady state) value of u
-    ub = [u_ss(u_ss_index-1), u_ss(u_ss_index), inf];      % Restrict K_tau to last (steady state) value of u
-    F = inline('x(1) + x(2)*(1-exp(-t*x(3)))', 'x', 't');
+    lb = [u_ss(u_ss_index-1), u_ss(u_ss_index), -inf];     % Restrict start surge speed to previous (steady state) value of u
+    ub = [u_ss(u_ss_index-1), u_ss(u_ss_index), inf];      % Restrict start surge speed to previous(steady state) value of u
+    F = inline('x(1) + (x(2) - x(1))*(1 - exp(-t*x(3)))', 'x', 't');
     x = lsqcurvefit(F, x0, t, u, lb, ub);
 
-    K(parameter_index) = x(2);
+    K(parameter_index) = x(2)/ncommand;
     T(parameter_index) = 1/x(3);
 
-%     figure();
-%     plot(t, u); hold on; plot(t, F(x, t)); legend('Surge speed', 'Modelled surge speed');
+
+    plot(t, u); hold on; plot(t, F(x, t)); legend('Surge speed', 'Modelled surge speed');
 end
 
-ncommands = n_start:n_end;
-K = K./ncommands';
 
 figure();
+subplot(2,1,1);
 stem(K);
-figure();
+legend('K');
+subplot(2,1,2);
 stem(T);
+legend('T');
 % Plotting
 % sim MSFartoystyring % The measurements from the simulink model are automatically written to the workspace.
 
-suggested_T = mean(T);
-suggested_K = mean(K);
+suggested_T = mean(T)
+suggested_K = mean(K)
  
