@@ -25,7 +25,7 @@ x0 = [-0.1; 20];
 
 for i =1:size(dc_V,2)
     dc = dc_V(i);
-    sim MSFartoystyring_ssavg
+    sim MSFartoystyring
     r_V(i) = r(end);
     
     tmp = lsqcurvefit(F, x0, t, r);
@@ -47,3 +47,6 @@ for i=1:size(T,2)
     xlim([0 1000]);
     legend('Heading', 'Curve fitted heading');
 end
+dc_V*rad2deg
+K
+T
