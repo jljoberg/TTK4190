@@ -24,4 +24,4 @@ plot(t,(mod(chi,2*pi)-mod(psi,2*pi))*180/pi);
 
 legend('\beta')
 grid on; xlabel('Time [s]'); ylabel('angle [deg]')
-title('Sideslip')
+title('Crab angle')
