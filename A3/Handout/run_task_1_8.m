@@ -39,13 +39,13 @@ m_psi=T_psi/K_psi;
 k_psi=0;
 d_psi=1/K_psi;
 K_p = (m_psi+K_m_psi)*omega_n_psi^2-k_psi; %-18; %-40
-K_d = -2*zeta_psi*omega_n_psi*(m_psi+K_m_psi)-d_psi; %=350;%= 350; %1/40
-K_i = 0;%-1/100; %-1/100
+K_d = -(2*zeta_psi*omega_n_psi*(m_psi+K_m_psi)-d_psi); %=350;%= 350; %1/40
+K_i = K_p*omega_n_psi/10;%-1/100; %-1/100
 
 %% Surge Model
-T_u = 120;
-K_u = 0.02; %0.8157;
-omega_b_u = .05;
+T_u = 200;
+K_u = 0.8157;
+omega_b_u = .7;
 zeta_u = 1;
 omega_n_u = omega_b_u/(sqrt(1-2*zeta_u^2+sqrt(4*zeta_u^4-4*zeta_u^2+2)));
 K_m_u = 0;
